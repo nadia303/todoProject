@@ -1,8 +1,10 @@
 import { useState } from "react";
+import useLanguageSwitcher from "../../hooks/useLanguageSwitcher";
 import "./styles.css";
 
 const CreateItem = ({ handleCreate }) => {
   const [text, setText] = useState("");
+  const { activeLanguage } = useLanguageSwitcher();
 
   const onChangeText = (e) => {
     setText(e.target.value);
@@ -17,14 +19,16 @@ const CreateItem = ({ handleCreate }) => {
 
   return (
     <div className="create-todo-form">
-      <div className="create-todo-form__title">CreateTodo</div>
+      <div className="create-todo-form__title">
+        {activeLanguage === "EN" ? "CreateTodo" : "Створити нове завдання"}
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="create-todo-form__input-wrapper">
           <label className="create-todo-form__input-label" htmlFor="text">
-            Title:
+            {activeLanguage === "EN" ? "Title: " : "Назва: "}
           </label>
           <input
-              placeholder="Enter todo"
+            placeholder="Enter todo"
             className="create-todo-form__input"
             id="text"
             type="text"
@@ -32,7 +36,13 @@ const CreateItem = ({ handleCreate }) => {
             onChange={onChangeText}
           />
         </div>
-        <button disabled={!text.length} className="create-todo-form__submit-btn" type="submit">Submit</button>
+        <button
+          disabled={!text.length}
+          className="create-todo-form__submit-btn"
+          type="submit"
+        >
+          {activeLanguage === "EN" ? "Submit" : "Зберегти"}
+        </button>
       </form>
     </div>
   );

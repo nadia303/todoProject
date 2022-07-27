@@ -11,12 +11,22 @@
 }
 .list-item__title {
   margin: 0;
+  font-weight: 700;
+  color: #483d8b;
 }
 .list-item:hover {
   background: #d7d7d7;
 }
 .list-item__title--checked {
   text-decoration: line-through;
+}
+.list-item_wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.list-item_wrapper_element {
+  margin: 0;
+  padding: 0;
 }
 .list-item__btns-wrapper {
   display: flex;
@@ -32,9 +42,11 @@
 }
 
 .fa-pencil,
-.fa-trash {
+.fa-trash,
+.fa-plus-circle {
   font-size: 18px;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 .toast {

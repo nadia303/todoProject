@@ -5,7 +5,7 @@ class TodoRepository {
   async getById(id) {
     return todoModel.getById(id);
   }
-  async getAll(limip, page) {
+  async getAll(limit, page) {
     return todoModel.getAll();
   }
   async create(object) {

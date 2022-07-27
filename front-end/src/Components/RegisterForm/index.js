@@ -12,6 +12,7 @@ const RegisterForm = () => {
     password: undefined,
     confirmPassword: undefined,
     dateOfBirth: undefined,
+    role: "user",
   });
 
   const api = useApi();

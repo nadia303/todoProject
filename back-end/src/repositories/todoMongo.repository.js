@@ -21,15 +21,36 @@ class TodoMongoRepository {
     return Todos.findOne({ _id: id });
   }
   async getOwnTodoById(id, user) {
-    const todo = await Todos.findOne({
-      $and: [{ _id: id }, { owner: user._id }],
-    });
+    let todo = "";
+    //condition for admin to delete todo
+    if (user.role === "admin") {
+      todo = await Todos.findOne({ _id: id });
+    } else {
+      todo = await Todos.findOne({
+        $and: [{ _id: id }, { owner: user._id }],
+      });
+    }
     if (!todo) {
       throw new HTTPError("NotFound", 404);
     }
     return todo;
   }
-  async getAll({ limit, page }, userId) {
+
+  async getAll({ limit, page, text }, userId) {
+    if (text) {
+      const searchText = new RegExp(`.*${text}.*`);
+      const todos = await Todos.find({
+        $and: [
+          { text: { $regex: searchText, $options: "i" } },
+          { $or: [{ owner: userId }, { sharedWith: userId }] },
+        ],
+      })
+        .skip(limit * page)
+        .limit(limit)
+        .populate({ path: "owner" })
+        .populate({ path: "sharedWith" });
+      return todos;
+    }
     const todos = await Todos.find({
       $or: [{ owner: userId }, { sharedWith: userId }],
     })
@@ -39,16 +60,59 @@ class TodoMongoRepository {
       .populate({ path: "sharedWith" });
     return todos;
   }
+
+  async getAllAdmin({ limit, page, text }) {
+    if (text) {
+      const searchText = new RegExp(`.*${text}.*`);
+      const todos = await Todos.find({
+        text: { $regex: searchText, $options: "i" },
+      })
+        .skip(limit * page)
+        .limit(limit)
+        .populate({ path: "owner" })
+        .populate({ path: "sharedWith" });
+
+      return todos;
+    }
+    const todos = await Todos.find()
+      .skip(limit * page)
+      .limit(limit)
+      .populate({ path: "owner" })
+      .populate({ path: "sharedWith" });
+    return todos;
+  }
+
   async searchByText(text) {
     const searchText = new RegExp(`.*${text}.*`);
 
     return Todos.find({ text: { $regex: searchText, $options: "i" } });
   }
-  async getCount(id) {
+
+  async getCount(id, text) {
+    if (text) {
+      const searchText = new RegExp(`.*${text}.*`);
+      return Todos.countDocuments({
+        $and: [
+          { text: { $regex: searchText, $options: "i" } },
+          { $or: [{ owner: id }, { sharedWith: id }] },
+        ],
+      });
+    }
     return Todos.countDocuments({
       $or: [{ owner: id }, { sharedWith: id }],
     });
   }
+
+  async getCountAdmin(text) {
+    const searchText = new RegExp(`.*${text}.*`);
+    if (text) {
+      return Todos.countDocuments({
+        text: { $regex: searchText, $options: "i" },
+      });
+    }
+    return Todos.countDocuments();
+  }
+
   async create(object) {
     logger.info(`TodoRepository. Create todo request`, object);
     const todo = new Todos(object);
@@ -65,6 +129,38 @@ class TodoMongoRepository {
     return Todos.findByIdAndUpdate(id, todo, { new: true })
       .populate({ path: "owner" })
       .populate({ path: "sharedWith" });
+  }
+
+  async shareTodo(id, userId) {
+    logger.info(`TodoRepository. ShareTodo request id=${id} userId=${userId}`);
+    const todo = await Todos.findByIdAndUpdate(
+      { _id: id },
+      { $addToSet: { sharedWith: userId } },
+      { new: true }
+    );
+    return todo;
+  }
+
+  async deleteUserFromSharedTodo(id, userId) {
+    logger.info(
+      `TodoRepository. ShareTodoDelete request id=${id} userId=${userId}`
+    );
+    const todo = await Todos.findByIdAndUpdate(
+      { _id: id },
+      { $pull: { sharedWith: userId } },
+      { new: true }
+    );
+    return todo;
+  }
+
+  async getByIdTodoOwner(id, user) {
+    const todo = await Todos.findOne({
+      $and: [{ _id: id }, { owner: user._id }],
+    });
+    if (!todo) {
+      throw new HTTPError("NotFound", 404);
+    }
+    return todo;
   }
 }
 

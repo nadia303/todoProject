@@ -7,6 +7,9 @@ import NotFound from "./Components/NotFound";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import Layout from "./Components/Layout";
 import Profile from "./Components/Profile";
+import AllUsers from "./Components/AllUsers";
+import ProtectedRouteAdmin from "./Components/ProtectedRouteAdmin";
+import AllTodos from "./Components/AllTodos";
 
 const Index = () => {
   return (
@@ -16,6 +19,16 @@ const Index = () => {
           <Route index element={<List />} />
           <Route path="/list" element={<List />} />
           <Route path="/profile" element={<Profile />} />
+        </Route>
+      </Route>
+      <Route element={<ProtectedRouteAdmin />}>
+        <Route element={<Layout />}>
+          <Route path="/admin/users" element={<AllUsers />} />
+          <Route
+            path="/admin/users/todos"
+            element={<AllTodos select="userTodos" />}
+          />
+          <Route path="/admin/todos" element={<AllTodos select="all" />} />
         </Route>
       </Route>
       <Route path="/login" element={<Login />} />

@@ -9,8 +9,15 @@ export async function getMe(req, res) {
 }
 
 export async function register(req, res) {
-  const { firstName, lastName, email, password, confirmPassword, dateOfBirth } =
-    req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    dateOfBirth,
+    role,
+  } = req.body;
   logger.info("AuthController. Got register request", {
     firstName,
     lastName,
@@ -23,6 +30,7 @@ export async function register(req, res) {
       lastName,
       email,
       dateOfBirth,
+      role,
     });
     throw new HTTPError("Confirm password are wrong", 400);
   }
@@ -32,6 +40,7 @@ export async function register(req, res) {
     email,
     password,
     dateOfBirth,
+    role,
   });
   res.json(user);
 }

@@ -15,26 +15,27 @@ class AuthService {
     const salt = bcrypt.genSaltSync(10);
     return bcrypt.hashSync(password, salt);
   }
-  async register({ firstName, lastName, email, password, dateOfBirth }) {
+  async register({ firstName, lastName, email, password, dateOfBirth, role }) {
     logger.info(message("Got register request"), {
       firstName,
       lastName,
       email,
       dateOfBirth,
+      role,
     });
     const existingUser = await authRepository.findOneByEmail(email);
 
     if (existingUser) {
       logger.warn(message("User already exist"), { email });
-      throw new HTTPError("Email aready in use", 400);
+      throw new HTTPError("Email already in use", 400);
     }
-
     const user = await authRepository.create({
       firstName,
       lastName,
       email,
       password: this.getPasswordHash(password),
       dateOfBirth,
+      role,
     });
     logger.info(message("User created successfully"), { id: user._id });
 
@@ -84,6 +85,15 @@ class AuthService {
     });
 
     return user;
+  }
+
+  async getUserByEmail(email) {
+    const existingUser = await authRepository.findOneByEmail(email);
+    if (!existingUser) {
+      logger.warn(message("User not found"), { email });
+      throw new HTTPError("User not found", 400);
+    }
+    return existingUser.getPublickProfile();
   }
 }
 

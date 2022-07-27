@@ -2,7 +2,7 @@ import { Users } from "../models/user.model.js";
 import { logger } from "../utils/logger.js";
 
 class AuthRepository {
-  async create({ firstName, lastName, email, password, dateOfBirth }) {
+  async create({ firstName, lastName, email, password, dateOfBirth, role }) {
     logger.info(`AuthRepository. Got create User request`);
     const user = new Users({
       firstName,
@@ -10,6 +10,7 @@ class AuthRepository {
       email,
       password,
       dateOfBirth,
+      role,
     });
     return user.save();
   }

@@ -31,10 +31,19 @@ export default function useApi() {
     me: () => axiosRequest("GET", "/auth/me").then(({ data }) => data),
     createTodo: (data) =>
       axiosRequest("POST", "/todos", data).then(({ data }) => data),
-    getAllTodos: () => axiosRequest("GET", "/todos").then(({ data }) => data),
+    getAllTodos: (data) =>
+      axiosRequest("GET", "/todos", data).then(({ data }) => data),
     deleteTodo: (id) =>
       axiosRequest("DELETE", `/todos/${id}`).then(({ data }) => data),
     updateTodo: (id, data) =>
       axiosRequest("PUT", `/todos/${id}`, data).then(({ data }) => data),
+    shareTodo: (id, email) =>
+      axiosRequest("PUT", `todos/share/${id}`, { email }).then(
+        ({ data }) => data
+      ),
+    deleteUserFromSharedTodo: (id, userId) =>
+      axiosRequest("DELETE", `todos/share/${id}`, { userId }).then(
+        ({ data }) => data
+      ),
   };
 }

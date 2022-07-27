@@ -1,0 +1,15 @@
+.all_users_container_wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.all_users_input_wrapper {
+  font-weight: 500;
+  width: 633px;
+}
+
+.all_users_cards_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}

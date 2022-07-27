@@ -4,6 +4,7 @@ import { todoController } from "../controlers/todo.controller.js";
 import { authMiddlevare } from "../middlewares/auth.middleware.js";
 import { shouldHaveRole } from "../middlewares/access.middleware.js";
 import { ROLES } from "../models/constants.js";
+import { ownerMiddleware } from "../middlewares/owner.middleware.js";
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ const createTodoValidation = {
 
 router.get(
   "/search",
-  authMiddlevare,
+  authMiddlevare,  
   shouldHaveRole(ROLES.ADMIN),
   async (req, res, next) => todoController.searchByText(req, res).catch(next)
 );
@@ -44,6 +45,23 @@ router.put("/:id", authMiddlevare, async (req, res, next) =>
 
 router.get("/:id", authMiddlevare, async (req, res, next) =>
   todoController.getById(req, res).catch(next)
+);
+
+// share todo with another user
+router.put(
+  "/share/:id",
+  authMiddlevare,
+  ownerMiddleware,
+  async (req, res, next) => todoController.shareTodo(req, res).catch(next)
+);
+
+// delete the user from shared todo
+router.delete(
+  "/share/:id",
+  authMiddlevare,
+  ownerMiddleware,
+  async (req, res, next) =>
+    todoController.deleteUserFromSharedTodo(req, res).catch(next)
 );
 
 export default router;
