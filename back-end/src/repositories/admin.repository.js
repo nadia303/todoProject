@@ -3,7 +3,7 @@ import { Users } from "../models/user.model.js";
 import { Todos } from "../models/todoMogo.model.js";
 
 class AdminMongoRepository {
-  //gets all existing users
+  //gets all existing users according to the query
   async getAllUsers({ limit, page, email }) {
     if (email) {
       const searchEmail = new RegExp(`.*${email}.*`);
@@ -20,7 +20,7 @@ class AdminMongoRepository {
     return users;
   }
 
-  //counts all existing users
+  //counts all existing users according to the query
   async getCount(email) {
     if (email) {
       const searchEmail = new RegExp(`.*${email}.*`);

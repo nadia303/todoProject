@@ -1,4 +1,4 @@
-import { Users } from "../models/user.model.js";
+ import { Users } from "../models/user.model.js";
 import { logger } from "../utils/logger.js";
 
 class AuthRepository {

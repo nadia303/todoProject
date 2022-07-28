@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import { useAuth } from "../../hooks/useAuth";
 import useApi from "../../hooks/useApi";
-
 import "./styles.css";
 
 const LoginForm = () => {
@@ -67,6 +68,7 @@ const LoginForm = () => {
           Login
         </button>
       </form>
+      <Link to={`/register`}>Register</Link>
     </div>
   );
 };

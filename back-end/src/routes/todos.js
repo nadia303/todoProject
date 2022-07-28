@@ -20,12 +20,13 @@ router.get(
   shouldHaveRole(ROLES.ADMIN),
   async (req, res, next) => todoController.searchByText(req, res).catch(next)
 );
-// get all todos list
+
+// get all todos 
 router.get("/", authMiddlevare, async (req, res, next) =>
   todoController.getAllTodos(req, res).catch(next)
 );
 
-// create new todos
+// create new todo
 router.post(
   "/",
   authMiddlevare,
@@ -33,16 +34,17 @@ router.post(
   async (req, res, next) => todoController.createTodo(req, res).catch(next)
 );
 
-// delete todos by id
+// delete todo by id
 router.delete("/:id", authMiddlevare, async (req, res, next) =>
   todoController.deleteOne(req, res).catch(next)
 );
 
-// edit todos
+// edit todo
 router.put("/:id", authMiddlevare, async (req, res, next) =>
   todoController.update(req, res).catch(next)
 );
 
+// get todo by id
 router.get("/:id", authMiddlevare, async (req, res, next) =>
   todoController.getById(req, res).catch(next)
 );
@@ -55,7 +57,7 @@ router.put(
   async (req, res, next) => todoController.shareTodo(req, res).catch(next)
 );
 
-// delete the user from shared todo
+// delete the user from the shared todo
 router.delete(
   "/share/:id",
   authMiddlevare,

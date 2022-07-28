@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import useApi from "../../hooks/useApi";
+
 import useApiAdmin from "../../hooks/useApiAdmin";
 
 const NewUser = ({ show, refetchUsers, handleClose }) => {
@@ -18,6 +18,7 @@ const NewUser = ({ show, refetchUsers, handleClose }) => {
 
   const api = useApiAdmin();
 
+  //updates each field while new data is entering
   const updateField = (e) => {
     setData((prevState) => ({
       ...prevState,
@@ -25,9 +26,10 @@ const NewUser = ({ show, refetchUsers, handleClose }) => {
     }));
   };
 
+  //adds the new user to database
   const addNewUser = async () => {
     try {
-      const user = await api.register(data);
+      await api.register(data);
     } catch (error) {
       console.error("error", error);
     }

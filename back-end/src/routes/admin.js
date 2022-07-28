@@ -1,4 +1,5 @@
 import express from "express";
+
 import { adminController } from "../controlers/admin.controller.js";
 import { authMiddlevare } from "../middlewares/auth.middleware.js";
 import { shouldHaveRole } from "../middlewares/access.middleware.js";
@@ -58,16 +59,16 @@ router.put(
   async (req, res, next) => adminController.updateUserData(req, res).catch(next)
 );
 
-//get all todos of one user by user's id
+// get all todos of one user by user's id
 router.get(
   "/users/todos",
   authMiddlevare,
   shouldHaveRole(ROLES.ADMIN),
   async (req, res, next) =>
-  adminController.getOneUserAllTodosByQuery(req, res).catch(next)
+    adminController.getOneUserAllTodosByQuery(req, res).catch(next)
 );
 
-//get user by id
+// get user by id
 router.get("/users/:id", async (req, res, next) =>
   adminController.getUserById(req, res).catch(next)
 );

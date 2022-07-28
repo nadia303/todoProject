@@ -34,7 +34,7 @@ const List = () => {
 
   useEffect(() => {
     getAllTodos();
-  }, []);
+  },[]);
 
   const getAllTodos = async (page = 1) => {
     const todos = await api.getAllTodos({ limit: LIMIT, page: page - 1 });

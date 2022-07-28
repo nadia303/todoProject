@@ -22,6 +22,7 @@ const ListItem = (props) => {
 
   const handleClose = () => setShow(false);
 
+  //shows the share module window in order to share the todo with another user
   const showShareModule = () => {
     if (!isCompleted) {
       setShow(true);

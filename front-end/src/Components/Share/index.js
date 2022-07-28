@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -21,13 +21,16 @@ const Share = ({
 
   const api = useApi();
   const user = useUserData();
+  //gets the active language
   const { activeLanguage } = useLanguageSwitcher();
 
+  //saves the user email
   const setUserEmail = (email) => {
     showError(false);
     setEmail(email);
   };
 
+  //shares todo with another user
   const shareWithUser = async () => {
     showError(false);
     try {
@@ -45,6 +48,7 @@ const Share = ({
     return user.email === email || !email;
   };
 
+  //deletes the user from shared todo
   const deleteUserFromSHaredTodo = async (userId) => {
     try {
       await api.deleteUserFromSharedTodo(todoId, userId);

@@ -21,14 +21,20 @@ const AllUsers = () => {
   const [searchEmail, setSearchEmail] = useState("");
 
   const apiAdmin = useApiAdmin();
+  //gets the active language
   const { activeLanguage } = useLanguageSwitcher();
 
+  //gets the limit of users on one page
   const LIMIT = process.env.REACT_APP_LIMIT_USERS;
 
   useEffect(() => {
+    setTimeout(() => {
+      getAllUsers();
+    }, [200]);
     getAllUsers();
   }, [searchEmail]);
 
+  //get's the data about all existing users
   const getAllUsers = async (page = 1) => {
     const users = await apiAdmin.getAllUsers({
       limit: LIMIT,
@@ -50,6 +56,7 @@ const AllUsers = () => {
     return Math.ceil(users.total / users.limit);
   };
 
+  //gets the query to search the user by email
   const updateField = (e) => {
     setSearchEmail(e.target.value);
   };
@@ -76,10 +83,7 @@ const AllUsers = () => {
             onChange={(event) => updateField(event)}
           />
         </Form.Group>
-        <Button
-          variant="success"
-          onClick={() => setShow(true)}
-        >
+        <Button variant="success" onClick={() => setShow(true)}>
           {activeLanguage === "EN" ? "Create new user" : "Додати користувача"}
         </Button>
       </div>

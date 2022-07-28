@@ -1,4 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
+
 import useUserData from "../../hooks/useUserData";
 
 const ProtectedRouteAdmin = ({ redirectPath = "/list" }) => {

@@ -26,16 +26,26 @@ const AllTodos = ({ select }) => {
 
   const apiAdmin = useApiAdmin();
   const api = useApi();
+  //gets the user's id from url
   const [searchParams] = useSearchParams();
   const id = searchParams.get("userId");
+  //gets the active language
   const { activeLanguage } = useLanguageSwitcher();
 
+  //the limit of todos on one page
   const LIMIT = process.env.REACT_APP_LIMIT_TODOS;
 
   useEffect(() => {
-    select === "all" ? getAllTodos() : getAllUsersTodos();
+    select === "all"
+      ? setTimeout(() => {
+          getAllTodos();
+        }, [200])
+      : setTimeout(() => {
+          getAllUsersTodos();
+        }, [200]);
   }, [todoSearch, select]);
 
+  //invokes when the todo's of certain user are going to be rendered
   const getAllUsersTodos = async (page = 1) => {
     const todos = await apiAdmin.getUserTodos({
       userId: id,
@@ -48,6 +58,7 @@ const AllTodos = ({ select }) => {
     setUser({ firstName: user.firstName, lastName: user.lastName });
   };
 
+  //invokes when the todo's of all user are going to be rendered
   const getAllTodos = async (page = 1) => {
     const todos = await apiAdmin.getAllTodos({
       limit: LIMIT,
@@ -66,6 +77,7 @@ const AllTodos = ({ select }) => {
     return Math.ceil(todos.total / todos.limit);
   };
 
+  //gets the search query to find the todo by title
   const setTodoSearchMode = (e) => {
     setTodoSearch(e.target.value);
   };
@@ -88,8 +100,8 @@ const AllTodos = ({ select }) => {
           <Form.Control
             style={{ marginLeft: "10px", marginTop: "30px", width: "590px" }}
             className="mb-4"
-            type="email"
-            name="email"
+            type="text"
+            name="title"
             placeholder={
               activeLanguage === "EN"
                 ? "Enter a todo name here..."

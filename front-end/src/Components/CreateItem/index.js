@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import useLanguageSwitcher from "../../hooks/useLanguageSwitcher";
 import "./styles.css";
 
@@ -28,7 +29,9 @@ const CreateItem = ({ handleCreate }) => {
             {activeLanguage === "EN" ? "Title: " : "Назва: "}
           </label>
           <input
-            placeholder="Enter todo"
+            placeholder={
+              activeLanguage === "EN" ? "Enter todo" : "Введіть завдання"
+            }
             className="create-todo-form__input"
             id="text"
             type="text"

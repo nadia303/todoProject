@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+
 import useLanguageSwitcher from "../../hooks/useLanguageSwitcher";
 
 const UpdateUser = ({
@@ -20,9 +21,10 @@ const UpdateUser = ({
     dateOfBirth: userData.dateOfBirth,
     role: userData.role,
   });
-
+  //gets the active language
   const { activeLanguage } = useLanguageSwitcher();
 
+  //updates the field in modal form
   const updateField = (e) => {
     updateData((prevState) => ({
       ...prevState,
@@ -30,7 +32,9 @@ const UpdateUser = ({
     }));
   };
 
+  //updates the user's data
   const updateUserData = async () => {
+    //if password was not entered
     if (!data.password) {
       const { password, confirmPassword, ...allData } = data;
       try {

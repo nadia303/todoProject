@@ -1,5 +1,4 @@
 import { Outlet, NavLink } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Container from "react-bootstrap/Container";
@@ -15,10 +14,6 @@ const Layout = () => {
 
   const handleLogout = () => {
     auth.singOut();
-  };
-
-  const changeLanguage = (value) => {
-    lang.changeLanguage(value);
   };
 
   return (
@@ -71,7 +66,7 @@ const Layout = () => {
         >
           {Object.values(lang.languages).map((el) => {
             return (
-              <Dropdown.Item key={el} onClick={() => changeLanguage(el)}>
+              <Dropdown.Item key={el} onClick={() => lang.changeLanguage(el)}>
                 {el}
               </Dropdown.Item>
             );

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import useLanguageSwitcher from "../../hooks/useLanguageSwitcher";
 
+import useLanguageSwitcher from "../../hooks/useLanguageSwitcher";
 import "./styles.css";
 
 const EditItem = ({

@@ -1,4 +1,3 @@
-// import { todoMongoRepository } from "../repositories/todoMongo.repository.js";
 import { adminMongoRepository } from "../repositories/admin.repository.js";
 import { todoMongoRepository } from "../repositories/todoMongo.repository.js";
 import { HTTPError } from "../utils/HttpError.js";
@@ -8,15 +7,14 @@ import { authService } from "./auth.service.js";
 class AdminService {
   async addNewUser(user) {
     logger.info(`AdminService. Got create new user request`, { user });
-    // return todoMongoRepository.create({ text, owner: user._id });
   }
 
-  async getAllUsers({ limit = 10, page = 0 , email}) {
+  async getAllUsers({ limit = 10, page = 0, email }) {
     page = page > 0 ? page : 0;
     logger.info(`AdminService. Got get ALL users request`, { limit, page });
 
     const [users, total] = await Promise.all([
-      adminMongoRepository.getAllUsers({ limit, page, email}),
+      adminMongoRepository.getAllUsers({ limit, page, email }),
       adminMongoRepository.getCount(email),
     ]);
     return {
@@ -35,7 +33,7 @@ class AdminService {
 
   async getAllTodos({ limit = 10, page = 0, text }, userId) {
     page = page > 0 ? page : 0;
-    logger.info(`TodoService. Got get ALL todo request`, {
+    logger.info(`AdminService. Got get ALL todo request`, {
       limit,
       page,
     });

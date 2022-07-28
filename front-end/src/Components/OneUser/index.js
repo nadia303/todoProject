@@ -5,7 +5,6 @@ import { PencilFill } from "react-bootstrap-icons";
 
 import "./styles.css";
 import UpdateUser from "../UpdateUserModal/UpdateUser";
-import useLanguageSwitcher from "../../hooks/useLanguageSwitcher";
 
 const OneUser = ({
   userData,
@@ -17,6 +16,7 @@ const OneUser = ({
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
+  //deletes user and his todos from database
   const handleDeleteUser = async (e) => {
     e.preventDefault();
     try {
@@ -30,6 +30,7 @@ const OneUser = ({
     refetchUsers();
   };
 
+  //shows the modal window in order to update user
   const handleUpdateUser = async (e) => {
     e.preventDefault();
     setShow(true);

@@ -46,9 +46,11 @@ class TodoService {
     const todo = await todoMongoRepository.getOwnOrSharedTodoById(id, user);
     return todo.getPublickTodoWithUsers();
   }
+
   async searchByText(text) {
     return todoMongoRepository.searchByText(text);
   }
+  
   async update({ id, todoData, user }) {
     logger.info(`TodoService. Got update todo request ${id}`);
     const todo = await todoMongoRepository.getOwnTodoById(id, user);

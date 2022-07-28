@@ -17,12 +17,14 @@ class TodoMongoRepository {
     }
     return todo;
   }
+
   async getTodoById() {
     return Todos.findOne({ _id: id });
   }
+
   async getOwnTodoById(id, user) {
     let todo = "";
-    //condition for admin to delete todo
+    //condition for admin
     if (user.role === "admin") {
       todo = await Todos.findOne({ _id: id });
     } else {
@@ -36,6 +38,7 @@ class TodoMongoRepository {
     return todo;
   }
 
+  //get all todos for certain user according to query
   async getAll({ limit, page, text }, userId) {
     if (text) {
       const searchText = new RegExp(`.*${text}.*`);
@@ -61,6 +64,7 @@ class TodoMongoRepository {
     return todos;
   }
 
+  //get all existing todos according to query
   async getAllAdmin({ limit, page, text }) {
     if (text) {
       const searchText = new RegExp(`.*${text}.*`);
@@ -88,6 +92,7 @@ class TodoMongoRepository {
     return Todos.find({ text: { $regex: searchText, $options: "i" } });
   }
 
+  //counts all todos of certain user according to query
   async getCount(id, text) {
     if (text) {
       const searchText = new RegExp(`.*${text}.*`);
@@ -103,6 +108,7 @@ class TodoMongoRepository {
     });
   }
 
+  //counts all todos of all users according to query
   async getCountAdmin(text) {
     const searchText = new RegExp(`.*${text}.*`);
     if (text) {
@@ -120,6 +126,7 @@ class TodoMongoRepository {
 
     return todo.getPublickTodo();
   }
+
   async deleteOne(id) {
     return Todos.deleteOne({ _id: id });
   }

@@ -7,6 +7,7 @@ class TodoController {
     this.log = logger;
   }
 
+  //get all todos of certain user
   async getAllTodos(req, res) {
     this.log.info("Got getAllTodos request");
     let { page, limit, text } = req.query;
@@ -23,6 +24,7 @@ class TodoController {
     res.json(todos);
   }
 
+  //get all todos of all users
   async getAllTodosAdmin(req, res) {
     this.log.info("Got getAllTodos admin request");
     let { page, limit, text } = req.query;
@@ -42,10 +44,9 @@ class TodoController {
     const todo = await this.service.createTodo(req.body, req.user);
     res.json(todo);
   }
+
   async deleteOne(req, res) {
     const id = req.params.id;
-    console.log("IN DELETE ONE CONTROLLER");
-    console.log(id);
     this.log.info("Got deleteOne request", { id: `${id}` });
     await this.service.deleteOne(id, req.user);
     res.json();

@@ -1,5 +1,4 @@
 import { adminService } from "../services/admin.service.js";
-import { HTTPError } from "../utils/HttpError.js";
 import { logger } from "../utils/logger.js";
 
 class AdminController {
@@ -25,14 +24,14 @@ class AdminController {
     const id = req.params.id;
     this.log.info("Got deleteOneUser request", { id: `${id}` });
     await this.service.deleteOneUser(id);
-    res.json({ message: "User has been deleted succesfully" });
+    res.json({ message: "User has been deleted successfully" });
   }
 
   async deleteOneUserAllTodos(req, res) {
     const id = req.params.id;
     this.log.info("Got deleteOneUserAllTodos request", { id: `${id}` });
     await this.service.deleteOneUserAllTodos(id);
-    res.json({ message: "User's todos has been deleted succesfully" });
+    res.json({ message: "User's todos has been deleted successfully" });
   }
 
   async getUserById(req, res) {
@@ -41,14 +40,6 @@ class AdminController {
     const user = await this.service.getUserById(id);
     this.log.info("Got response from service", { user });
     res.json(user);
-  }
-
-  async getTodosByQuery(req, res) {
-    const belong = req.query.belong;
-    this.log.info("Got getUserByQuery request", { query: `${belong}` });
-    const todos = await this.service.getUserById(belong);
-    this.log.info("Got response from service", { todos });
-    res.json(todos);
   }
 
   async getOneUserAllTodosByQuery(req, res) {
@@ -66,22 +57,6 @@ class AdminController {
     const todos = await this.service.getAllTodos({ page, limit, text }, userId);
     res.json(todos);
   }
-
-  // async getOneUserAllTodos(req, res) {
-  //   const userId = req.params.id;
-  //   this.log.info("Got getAllTodos of one user request", {
-  //     userId: `${userId}`,
-  //   });
-  //   let { page, limit } = req.query;
-  //   if (page) {
-  //     page = parseInt(page);
-  //   }
-  //   if (limit) {
-  //     limit = parseInt(limit);
-  //   }
-  //   const todos = await this.service.getAllTodos({ page, limit }, userId);
-  //   res.json(todos);
-  // }
 
   async updateUserData(req, res) {
     const id = req.params.id;

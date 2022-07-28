@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import { TrashFill } from "react-bootstrap-icons";
 import { PencilFill } from "react-bootstrap-icons";
+
 import EditItem from "../EditItem";
 import useApi from "../../hooks/useApi";
 import useLanguageSwitcher from "../../hooks/useLanguageSwitcher";
@@ -10,19 +11,22 @@ const OneTodo = ({ todoData, deleteTodo, refetchTodos }) => {
   const [show, setShow] = useState(false);
   const api = useApi();
   const handleClose = () => setShow(false);
+  //gets the active language
   const { activeLanguage } = useLanguageSwitcher();
 
+  //deletes todo
   const handleDeleteTodo = async () => {
     await deleteTodo(todoData.id);
     refetchTodos();
   };
 
+  //opens the new modal window in order to update todo
   const handleUpdateTodo = () => {
     setShow(true);
   };
 
+  //adds new todo to the database
   const handleSave = async ({ id, text, isCompleted }) => {
-    console.log("Handle save TODO");
     try {
       await api.updateTodo(id, { text, isCompleted });
       refetchTodos();
